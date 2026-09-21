@@ -43,25 +43,21 @@ jobs:
           python-version: "3.12"
           cache: pip
 
-      - name: cache timestamp before
-        run: date +%s > /tmp/t_start
+      - name: record time before pip
+        run: echo "T_START=$(date +%s)" >> $GITHUB_ENV
 
       - run: pip install -r requirements.txt
 
-      - name: cache timestamp after pip
-        run: echo "pip took $(($(date +%s) - $(cat /tmp/t_start)))s"
+      - name: report pip time
+        run: echo "pip install took $(($(date +%s) - $T_START))s"
 
-      - name: build for github pages
-        run: |
-          sed -i 's|site_url:.*|site_url: https://spoon221.github.io/SSG/|' mkdocs.yml
-          mkdocs build --strict
+      - run: mkdocs build --strict
 
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./site
 
-      - name: store site for helios
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: site-helios
           path: site/
@@ -88,14 +84,12 @@ jobs:
           name: site-helios
           path: site/
 
-      - name: upload to helios via scp
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: helios.cs.ifmo.ru
-          port: 2222
-          username: s506807
-          password: ${{ secrets.HELIOS_PASSWORD }}
-          source: "site/*"
-          target: ~/public_html/ssg/
-          strip_components: 1
-          rm: true
+      - name: install sshpass
+        run: sudo apt-get install -y sshpass
+
+      - name: upload to helios
+        env:
+          HELIOS_PASS: ${{ secrets.HELIOS_PASSWORD }}
+        run: |
+          sshpass -e rsync -avz --delete -e "ssh -p 2222 -o StrictHostKeyChecking=no" \
+            site/ s506807@helios.cs.ifmo.ru:~/public_html/ssg/
