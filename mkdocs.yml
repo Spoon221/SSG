@@ -1,0 +1,69 @@
+site_name: Static Site Generator Lab
+site_url: https://spoon221.github.io/SSG/
+site_description: MkDocs SSG — лабораторная работа по CI/CD
+site_author: s506807
+
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  language: ru
+  palette:
+    - scheme: slate
+      primary: indigo
+      accent: cyan
+      toggle:
+        icon: material/brightness-4
+        name: Светлая тема
+    - scheme: default
+      primary: indigo
+      accent: cyan
+      toggle:
+        icon: material/brightness-7
+        name: Тёмная тема
+  font:
+    text: Inter
+    code: JetBrains Mono
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.annotate
+    - content.code.copy
+
+plugins:
+  - search
+  - minify:
+      minify_html: true
+
+markdown_extensions:
+  - admonition
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.arithmatex:
+      generic: true
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: true
+
+extra_javascript:
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+nav:
+  - Главная: index.md
+  - Ход работы:
+      - Установка: guide/install.md
+      - Сборка: guide/build.md
+      - Деплой: guide/deploy.md
+  - CI/CD:
+      - GitHub Actions: cicd/github-actions.md
+      - Helios: cicd/helios.md
+  - Лицензия: license.md
