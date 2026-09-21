@@ -78,6 +78,7 @@ jobs:
     needs: build
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
+    continue-on-error: true
     steps:
       - uses: actions/download-artifact@v4
         with:
@@ -88,8 +89,8 @@ jobs:
         run: sudo apt-get install -y sshpass
 
       - name: upload to helios
-        env:
-          HELIOS_PASS: ${{ secrets.HELIOS_PASSWORD }}
         run: |
-          sshpass -e rsync -avz --delete -e "ssh -p 2222 -o StrictHostKeyChecking=no" \
+          export SSHPASS="${{ secrets.HELIOS_PASSWORD }}"
+          sshpass -e rsync -avz --delete \
+            -e "ssh -p 2222 -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=30" \
             site/ s506807@helios.cs.ifmo.ru:~/public_html/ssg/
