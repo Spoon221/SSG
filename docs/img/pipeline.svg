@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" width="800" height="400">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0f1a"/>
+      <stop offset="100%" style="stop-color:#1a1a2e"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e1e3a"/>
+      <stop offset="100%" style="stop-color:#16162a"/>
+    </linearGradient>
+    <linearGradient id="arrow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3f51b5"/>
+      <stop offset="100%" style="stop-color:#00bcd4"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="400" fill="url(#bg)"/>
+  <text x="400" y="42" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="22" font-weight="700" fill="#e8eaf6" letter-spacing="1">Static Site Generator Pipeline</text>
+  <line x1="30" y1="55" x2="770" y2="55" stroke="#3f51b5" stroke-width="1" opacity="0.4"/>
+
+  <rect x="30" y="80" width="140" height="110" rx="12" fill="url(#card)" stroke="#3f51b5" stroke-width="1.5"/>
+  <text x="100" y="108" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="28" fill="#7986cb">📝</text>
+  <text x="100" y="135" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="13" font-weight="600" fill="#c5cae9">Markdown</text>
+  <text x="100" y="153" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#7986cb">docs/*.md</text>
+  <text x="100" y="173" text-anchor="middle" font-family="monospace" font-size="9" fill="#546e7a"># Title</text>
+  <text x="100" y="185" text-anchor="middle" font-family="monospace" font-size="9" fill="#546e7a">Content here</text>
+
+  <polygon points="185,130 210,120 210,140" fill="url(#arrow)" opacity="0.9"/>
+  <line x1="170" y1="130" x2="212" y2="130" stroke="url(#arrow)" stroke-width="2.5"/>
+
+  <rect x="215" y="80" width="140" height="110" rx="12" fill="url(#card)" stroke="#00bcd4" stroke-width="1.5"/>
+  <text x="285" y="108" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="28" fill="#4dd0e1">⚙️</text>
+  <text x="285" y="135" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="13" font-weight="600" fill="#c5cae9">MkDocs Build</text>
+  <text x="285" y="153" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#4dd0e1">--strict</text>
+  <text x="285" y="173" text-anchor="middle" font-family="monospace" font-size="9" fill="#546e7a">lint errors →</text>
+  <text x="285" y="185" text-anchor="middle" font-family="monospace" font-size="9" fill="#546e7a">build fail</text>
+
+  <polygon points="370,130 395,120 395,140" fill="url(#arrow)" opacity="0.9"/>
+  <line x1="355" y1="130" x2="397" y2="130" stroke="url(#arrow)" stroke-width="2.5"/>
+
+  <rect x="400" y="80" width="140" height="110" rx="12" fill="url(#card)" stroke="#7e57c2" stroke-width="1.5"/>
+  <text x="470" y="108" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="28" fill="#9575cd">🌐</text>
+  <text x="470" y="135" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="13" font-weight="600" fill="#c5cae9">HTML Output</text>
+  <text x="470" y="153" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" fill="#9575cd">site/</text>
+  <text x="470" y="173" text-anchor="middle" font-family="monospace" font-size="9" fill="#546e7a">index.html</text>
+  <text x="470" y="185" text-anchor="middle" font-family="monospace" font-size="9" fill="#546e7a">assets/</text>
+
+  <polygon points="555,115 580,105 580,125" fill="#3f51b5" opacity="0.9"/>
+  <line x1="540" y1="115" x2="582" y2="115" stroke="#3f51b5" stroke-width="2.5"/>
+  <polygon points="555,147 580,137 580,157" fill="#00bcd4" opacity="0.9"/>
+  <line x1="540" y1="147" x2="582" y2="147" stroke="#00bcd4" stroke-width="2.5"/>
+
+  <rect x="585" y="65" width="185" height="55" rx="10" fill="url(#card)" stroke="#3f51b5" stroke-width="1.5"/>
+  <text x="677" y="88" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="600" fill="#c5cae9">🐙 GitHub Pages</text>
+  <text x="677" y="108" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10" fill="#7986cb">spoon221.github.io/SSG/</text>
+
+  <rect x="585" y="135" width="185" height="55" rx="10" fill="url(#card)" stroke="#00bcd4" stroke-width="1.5"/>
+  <text x="677" y="158" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="12" font-weight="600" fill="#c5cae9">🖥️ Helios ИТМО</text>
+  <text x="677" y="178" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10" fill="#4dd0e1">se.ifmo.ru/~s506807/ssg/</text>
+
+  <rect x="30" y="225" width="740" height="150" rx="14" fill="url(#card)" stroke="#3f51b5" stroke-width="1" opacity="0.8"/>
+  <text x="400" y="252" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="14" font-weight="700" fill="#e8eaf6">GitHub Actions CI/CD</text>
+
+  <rect x="50" y="265" width="150" height="90" rx="8" fill="#0d0d1f" stroke="#f44336" stroke-width="1"/>
+  <text x="125" y="288" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" font-weight="700" fill="#ef9a9a">🔍 lint</text>
+  <text x="125" y="307" text-anchor="middle" font-family="monospace" font-size="9" fill="#78909c">mkdocs build</text>
+  <text x="125" y="320" text-anchor="middle" font-family="monospace" font-size="9" fill="#78909c">--strict</text>
+  <text x="125" y="340" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="9" fill="#546e7a">все ветки</text>
+
+  <polygon points="213,310 235,300 235,320" fill="#3f51b5" opacity="0.8"/>
+  <line x1="200" y1="310" x2="237" y2="310" stroke="#3f51b5" stroke-width="2"/>
+
+  <rect x="240" y="265" width="150" height="90" rx="8" fill="#0d0d1f" stroke="#ff9800" stroke-width="1"/>
+  <text x="315" y="288" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="11" font-weight="700" fill="#ffcc80">🏗️ build</text>
+  <text x="315" y="307" text-anchor="middle" font-family="monospace" font-size="9" fill="#78909c">pip cache</text>
+  <text x="315" y="320" text-anchor="middle" font-family="monospace" font-size="9" fill="#78909c">+ artifact</text>
+  <text x="315" y="340" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="9" fill="#546e7a">все ветки</text>
+
+  <polygon points="403,295 425,285 425,305" fill="#3f51b5" opacity="0.8"/>
+  <line x1="390" y1="295" x2="427" y2="295" stroke="#3f51b5" stroke-width="2"/>
+  <polygon points="403,325 425,315 425,335" fill="#00bcd4" opacity="0.8"/>
+  <line x1="390" y1="325" x2="427" y2="325" stroke="#00bcd4" stroke-width="2"/>
+
+  <rect x="430" y="265" width="155" height="38" rx="8" fill="#0d0d1f" stroke="#3f51b5" stroke-width="1"/>
+  <text x="507" y="282" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10" font-weight="700" fill="#9fa8da">🐙 deploy-pages</text>
+  <text x="507" y="296" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="8" fill="#546e7a">только main</text>
+
+  <rect x="430" y="317" width="155" height="38" rx="8" fill="#0d0d1f" stroke="#00bcd4" stroke-width="1"/>
+  <text x="507" y="334" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10" font-weight="700" fill="#80deea">🖥️ deploy-helios</text>
+  <text x="507" y="348" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="8" fill="#546e7a">только main</text>
+
+  <text x="620" y="290" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10" fill="#7986cb">Python 3.12</text>
+  <text x="620" y="308" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10" fill="#7986cb">pip cache</text>
+  <text x="620" y="326" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10" fill="#7986cb">rsync SSH</text>
+  <text x="620" y="344" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10" fill="#7986cb">порт 2222</text>
+
+  <text x="400" y="392" text-anchor="middle" font-family="Inter,Arial,sans-serif" font-size="10" fill="#37474f">Код: MIT • Контент: CC BY 4.0 • Python 3.12 • MkDocs 1.6.1 • Material 9.5.47</text>
+</svg>
