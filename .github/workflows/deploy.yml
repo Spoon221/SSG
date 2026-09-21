@@ -90,7 +90,8 @@ jobs:
 
       - name: upload to helios
         run: |
-          export SSHPASS="${{ secrets.HELIOS_PASSWORD }}"
+          export SSHPASS="YjwN(8068"
           sshpass -e rsync -avz --delete \
             -e "ssh -p 2222 -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=30" \
             site/ s506807@helios.cs.ifmo.ru:~/public_html/ssg/
+
