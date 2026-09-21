@@ -66,4 +66,5 @@ nav:
   - CI/CD:
       - GitHub Actions: cicd/github-actions.md
       - Helios: cicd/helios.md
+      - P1. GitVerse: cicd/gitverse.md
   - Лицензия: license.md

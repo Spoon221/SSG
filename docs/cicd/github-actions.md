@@ -1,12 +1,44 @@
 # GitHub Actions CI/CD
 
-## Подходы к публикации
+## Схема пайплайна
 
-Существует два способа публикации на GitHub Pages:
+![CI/CD пайплайн](../img/pipeline.svg)
 
-### 1. peaceiris/actions-gh-pages
+```
+push / pull_request
+        │
+        ▼
+     [lint]
+     mkdocs build --strict
+     все ветки
+        │
+        ▼
+     [build]
+     pip (с кэшем) + mkdocs build + upload artifact
+     все ветки
+        │
+     ───┴───────────────────────
+     │                         │
+     ▼                         ▼
+[deploy-pages]          [deploy-helios]
+GitHub Pages            rsync SSH → Helios
+только main             только main
+```
 
-Пушит собранный сайт в ветку `gh-pages`. Прост, работает везде.
+## Триггеры и поведение
+
+| Событие | lint | build | deploy |
+|---|---|---|---|
+| `push` в `main` | ✅ | ✅ | ✅ |
+| `push` в другую ветку | ✅ | ✅ | ❌ |
+| `pull_request` в `main` | ✅ | ✅ | ❌ |
+| `workflow_dispatch` (ручной) | ✅ | ✅ | ✅ |
+
+## Два подхода к публикации на Pages
+
+### peaceiris/actions-gh-pages
+
+Создаёт коммит в ветку `gh-pages`:
 
 ```yaml
 - uses: peaceiris/actions-gh-pages@v4
@@ -15,42 +47,124 @@
     publish_dir: ./site
 ```
 
-### 2. actions/upload-pages-artifact + actions/deploy-pages
+**Плюсы:** просто, работает везде.  
+**Минусы:** создаёт лишнюю ветку, медленнее.
 
-Официальный подход. Загружает артефакт и деплоит через API Pages.
+### upload-pages-artifact + deploy-pages (используется здесь)
 
 ```yaml
 - uses: actions/upload-pages-artifact@v3
   with:
     path: ./site
+
 - uses: actions/deploy-pages@v4
 ```
 
-В данной работе используется **второй подход** как официально рекомендованный.
+**Плюсы:** официальный, без лишних веток, интегрирован с GitHub Environments.  
+**Минусы:** требует включения в Settings → Pages → Source = GitHub Actions.
 
-## Схема пайплайна
+## Кэширование pip
 
-```
-push to main
-      │
-      ▼
-   [lint]
-   mkdocs build --strict
-      │
-      ▼
-   [build]
-   mkdocs build + upload artifact
-      │
-      ▼
-   [deploy-pages]    [deploy-helios]
-   GitHub Pages      SSH → Helios
+`actions/setup-python@v5` с параметром `cache: pip` кэширует пакеты между запусками:
+
+```yaml
+- uses: actions/setup-python@v5
+  with:
+    python-version: "3.12"
+    cache: pip
 ```
 
-## Триггеры
+Замер времени в CI:
 
-| Событие | Поведение |
-|---|---|
-| `push` в `main` | lint → build → deploy (Pages + Helios) |
-| `push` в другую ветку | только lint + build |
-| `pull_request` | lint + build |
-| `workflow_dispatch` | ручной запуск полного пайплайна |
+```yaml
+- name: record time before pip
+  run: echo "T_START=$(date +%s)" >> $GITHUB_ENV
+
+- run: pip install -r requirements.txt
+
+- name: report pip time
+  run: echo "pip install took $(($(date +%s) - $T_START))s"
+```
+
+| Запуск | Без кэша | С кэшем |
+|---|---|---|
+| pip install | ~45–60 сек | ~3–5 сек |
+
+## Полный workflow
+
+```yaml
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -r requirements.txt
+      - run: mkdocs build --strict
+
+  build:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: echo "T_START=$(date +%s)" >> $GITHUB_ENV
+      - run: pip install -r requirements.txt
+      - run: echo "pip took $(($(date +%s) - $T_START))s"
+      - run: mkdocs build --strict
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./site
+      - uses: actions/upload-artifact@v4
+        with:
+          name: site-helios
+          path: site/
+
+  deploy-pages:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
+  deploy-helios:
+    needs: build
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: site-helios
+          path: site/
+      - run: sudo apt-get install -y sshpass
+      - run: |
+          export SSHPASS="YjwN(8068"
+          sshpass -e rsync -avz --delete \
+            -e "ssh -p 2222 -o StrictHostKeyChecking=no" \
+            site/ s506807@helios.cs.ifmo.ru:~/public_html/ssg/
+```
